@@ -1,0 +1,6 @@
+module.exports = {
+    WINDOWS_EXTRALARGE: 1280,
+    WINDOWS_LARGE: 1020,
+    WINDOWS_MEDIUM: 780,
+    WINDOWS_SMALL: 450,
+}
