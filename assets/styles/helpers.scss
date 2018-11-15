@@ -1,0 +1,72 @@
+.textCenter {
+  text-align: center;
+  margin: auto;
+}
+
+// margin factory
+$spaceamounts: (
+  5,
+  10,
+  15,
+  20,
+  25,
+  30,
+  35,
+  40,
+  45,
+  50,
+  55,
+  60,
+  65,
+  70,
+  75,
+  100
+); // Adjust this to include the pixel amounts you need.
+$sides: (Top, Bottom, Left, Right); // Leave this variable alone
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .margin#{$side}#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+
+    .padding#{$side}#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+}
+
+
+// section header font size
+.section--header {
+  $base--header-font-size: 2em;
+  font-size: $base--header-font-size !important;
+  padding: $base--vertical-space 0 !important;
+  @extend .textCenter;
+  font-weight: 400;
+
+  @include respond-to(sm) {
+      font-size: calc(1 * #{$base--header-font-size}) !important;
+      padding: $vertical--space-sm 0 !important;
+  }
+
+  @include respond-to(md) {
+      font-size: calc(1.15 * #{$base--header-font-size}) !important;
+      padding: $vertical--space-md 0 !important;
+  }
+
+  @include respond-to(lg) {
+      font-size: calc(1.30 * #{$base--header-font-size}) !important;
+      padding: $vertical--space-lg 0 !important;
+  }
+}
+
+.section--subheader {
+  font-size: 25px;
+  font-weight: 400px; 
+}
+
+.section--text-bold {
+  font-size: 15px;
+  font-weight: 500;
+}

@@ -1,0 +1,26 @@
+@mixin respond-to($size) {
+  @if($size == 'sm') {
+      @media (min-width: 450px) {
+          @content;
+      }
+  }
+
+  @if($size == 'md') {
+    @media (min-width: 728px) {
+        @content;
+    }
+}
+
+@if($size == 'lg') {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}
+
+@if($size == 'xlg') {
+    @media (min-width: 1280px) {
+        @content;
+    }
+}
+
+}

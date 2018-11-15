@@ -31,7 +31,7 @@ class ThemeStyle {
     protected function resolvePublicStyles() {
         // Register main admin stylesheet - Development or Production
         if(Theme::$instance->development) {
-          wp_register_style('css-main', get_stylesheet_directory_uri() . '/dev/css/main.css', array(), '1.0.0', 'all');
+          wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.css', array(), '1.0.0', 'all');
         } else {
           wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.min.css', array(), '1.0.0', 'all');
         }
