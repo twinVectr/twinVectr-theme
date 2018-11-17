@@ -1,15 +1,16 @@
-<?php 
+<?php
 namespace twinVectr\engine;
 
-require_once('twinVectr.themeStyles.php');
-require_once('twinVectr.applyThemeGlobalHooks.php');
+require_once 'twinVectr.themeStyles.php';
+require_once 'twinVectr.applyThemeGlobalHooks.php';
 
 /**
- * 
+ * twinVectr Engine
+ * Class Theme initilizes the theme components and behaviours
  */
 
-class Theme {
-
+class Theme
+{
     public static $instance = null;
     public $theme_root_folder;
     public $developement;
@@ -17,114 +18,163 @@ class Theme {
     public $option_prefix = 'twinVectr';
     public $component_root_folder = 'components';
 
-    private $log_prefix =  'twinVectr';
+    private $log_prefix = 'twinVectr';
     private $engine_root_folder = 'twinVectr-engine';
-    private $abstract_root_folder = 'behaviours';
+    private $abstract_root_folder = 'abstract-behaviours';
     private $libs_root_folder = 'libs';
     private $vc_templates = array();
 
     private $required_plugins = array();
     private $active_plugins = array();
 
+    public $logging_service;
+    public $tokenizer_service;
+
     private $post_types = array();
     private $wordpress_helpers;
     private $loaded_compoments = array();
 
-
-
-    private function __construct($development = false) {
+    private function __construct($development = true)
+    {
         $this->development = $development;
         $this->theme_root_folder = get_template_directory();
         $this->theme_root_url = get_template_directory_uri();
         $this->loadAllLibs();
         $this->loadAllStyles();
         $this->loadThemeHelpers();
-        $this->TokenizerService = new Tokenizer();
+        $this->tokenizer_service = new Tokenizer();
+        $this->logging_service = new Logging();
     }
 
-
-    public function init() {
+    public function init()
+    {
         $this->loadAllCompoments();
         $this->loadAllStyles();
     }
 
-
-    public static function getInstance() {
-        if(Theme::$instance) {
+    /**
+     * initilizes a singleton object for the theme engine
+     */
+    public static function getInstance()
+    {
+        if (Theme::$instance) {
             return Theme::$instance;
         }
-        $development = true; 
+        $development = true;
         return new Theme($development);
     }
 
     /**
      * Loads all Theme libraries
      */
-    private function loadAllLibs(){
+    private function loadAllLibs()
+    {
         // Get all libs files
         $themeLibs = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->libs_root_folder . '/*/*.php', GLOB_NOSORT);
         foreach ($themeLibs as $req) {
-          require_once($req);
+            require_once $req;
         }
     }
 
-    private function loadAllStyles() {
+    /**
+     * Loads all the component styles
+     */
+    private function loadAllStyles()
+    {
         $style_resolver = new ThemeStyle();
         $style_resolver->addAllStyles();
     }
 
-    private function loadThemeHelpers() {
+    /**
+     * Theme wordpress helpers
+     */
+    private function loadThemeHelpers()
+    {
         GlobalHooks::applyThemeBasicHooks();
     }
 
-    private function loadAllCompoments() {
-
-        $abstractClasses = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/'. $this->abstract_root_folder . '/*.php');
-        foreach ($abstractClasses as $req) {
-            // Require each abstract class file
-            require_once($req);
+    /**
+     * Global Error Log
+     *
+     * In Development mode it is being log as an HTML message
+     * In Production it is logged into PHP error_log
+     *
+     * @param string error - Error Message
+     */
+    public function logError($error)
+    {
+        if ($this->Development) {
+            $this->logging_service->HtmlLog($error, 'lightcoral');
+        } else {
+            error_log($this->log_prefix . $error);
         }
-
-        $componentCorefiles = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->component_root_folder . '/*/*.php');
-         
-        foreach ($componentCorefiles as $file) {
-            // Require the component file
-            require_once($file);
-
-            // Get component class
-            $componentClass = $this->TokenizerService->getClassNameFromFile($file);
-
-            // If component Class is found
-            if($componentClass) {
-            // Instantiate the component
-            $compoment = new $componentClass(dirname($file));
-
-            // If component has a proper class
-            if ($compoment instanceof \Evoke\Components\Abstraction\Component) {
-                // Create meta data object
-                $metaData = array(
-                'Name' => $compoment->Name,
-                'Category' => $compoment->Category,
-                'Instance' => $compoment,
-                'File' => $file
-                );
-
-                // Track loaded components
-                $this->loaded_compoments[] = $metaData;
-            }
-            // Invalid class
-            else {
-                //$this->logWarning('The class located in the file "' . $file . '" does not implement "\twinVector-engine\behaviours\Component" class - cannot be loaded as a component.');
-            }
-            }
-        }
-          
     }
 
+    /**
+     * Global Warring Log
+     *
+     * In Development mode it is being log as an HTML message
+     * In Production it is logged into PHP error_log
+     *
+     * @param string warring - Warring Message
+     */
+    public function logWarning($warning)
+    {
+        if ($this->development) {
+            $this->logging_service->HtmlLog($warning, 'antiquewhite');
+        } else {
+            error_log($this->log_prefix . $warning);
+        }
+    }
+
+    /**
+     * Loads all the component main info to load their behaviours
+     */
+    private function loadAllCompoments()
+    {
+
+        // requires all the abstract behaviour for the componet classes
+        $abstractClasses = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->abstract_root_folder . '/*.php');
+        foreach ($abstractClasses as $req) {
+            require_once $req;
+        }
+        // Loads all the component base info
+        $componentCorefiles = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->component_root_folder . '/*/*.php');
+        foreach ($componentCorefiles as $file) {
+            require_once $file;
+            // Get component class
+            $componentClass = $this->tokenizer_service->getClassNameFromFile($file);
+            // If component Class is found
+            if ($componentClass) {
+                // Instantiate the component
+                $component = new $componentClass(dirname($file));
+
+                // If component has a proper class
+                if (is_subclass_of($component, 'twinVectr\engine\Component')) {
+                    // Create meta data object
+                    $metaData = array(
+                        'Name' => $component->Name,
+                        'Instance' => $component,
+                        'File' => $file,
+                    );
+                    // Track loaded components
+                    $this->loaded_compoments[] = $metaData;
+                }
+                // Invalid class
+                else {
+                    $this->logWarning('The class located in the file "' . $file . '" does not implement "twinVectr\engine\component" class - cannot be loaded as a component.');
+                }
+            }
+        }
+    }
 }
 
-
-function start() {
+/**
+ * start() initiates the twinVectr engine
+ * initializes Theme class - singleton
+ */
+function start()
+{
     Theme::$instance = Theme::getInstance();
     Theme::$instance->init();
 }

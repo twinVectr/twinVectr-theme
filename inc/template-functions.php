@@ -2,7 +2,7 @@
 /**
  * Functions which enhance the theme by hooking into WordPress
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 /**

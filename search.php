@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#search-result
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 get_header();
