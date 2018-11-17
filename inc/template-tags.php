@@ -4,7 +4,7 @@
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 if ( ! function_exists( 'badminton_portfolio_posted_on' ) ) :

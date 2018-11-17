@@ -4,7 +4,7 @@
  *
  * @link https://jetpack.com/
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 /**

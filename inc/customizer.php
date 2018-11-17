@@ -2,7 +2,7 @@
 /**
  * Badminton Portfolio Theme Customizer
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 /**

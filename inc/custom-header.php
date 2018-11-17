@@ -8,7 +8,7 @@
  *
  * @link https://developer.wordpress.org/themes/functionality/custom-headers/
  *
- * @package Badminton_Portfolio
+ * @package twinVectr Theme
  */
 
 /**
