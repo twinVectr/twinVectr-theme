@@ -17,10 +17,10 @@ class BehaviorShortcode extends Behavior
      * @param string $shortcodeName Name of the shortcode
      * @param string|array $callback Wordpress render callback
      */
-    protected function addShortcode($shortcodeName, $callback)
+    protected function addShortcode($shortcodeName = '', $callback)
     {
         // Basic Validation
-        if (!$shortcodeName) {
+        if (empty($shortcodeName)) {
             Theme::$instance->logError('Component: ' . $this->_compoment->Name . ', Behavior: ' . $this->Name . ' (BehaviorShortcode) - "shortcodeName" is empty');
             return;
         }

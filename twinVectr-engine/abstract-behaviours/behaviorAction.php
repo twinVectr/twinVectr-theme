@@ -24,7 +24,7 @@ class BehaviorAction extends Behavior
     protected function addAction($actionHookName = '', $callback, $priority = 10, $acceptedArgs = 1)
     {
         // Basic Validation
-        if (!$actionHookName) {
+        if (empty($actionHookName)) {
             Theme::$instance->logError('Component: ' . $this->_compoment->Name . ', Behavior: ' . $this->Name . ' (BehaviorAction) - "actionHookName" is empty');
             return;
         }
