@@ -20,10 +20,10 @@ class BehaviorFilter extends Behavior
      * @param int $priority Used to specify the order in which the functions associated with a particular action are executed
      * @param int $acceptedArgs The number of arguments the function accepts
      */
-    protected function addFilter($filterHookName, $callback, $priority = 10, $acceptedArgs = 1)
+    protected function addFilter($filterHookName = '', $callback, $priority = 10, $acceptedArgs = 1)
     {
         // Basic Validation
-        if (!$filterHookName) {
+        if (empty($filterHookName)) {
             Theme::$instance->logError('Component: ' . $this->_compoment->Name . ', Behavior: ' . $this->Name . ' (BehaviorAction) - filterhook is empty');
             return;
         }
