@@ -7,28 +7,14 @@ namespace twinVectr\engine;
  */
 class BehaviorFilter extends Behavior
 {
-
-    // Action key
-    public $Filter;
     public function __construct($componentInstance)
     {
-        // Basic Validation
-        if (!$this->Filter) {
-            // Log
-            \Evoke\Core\Theme::$Instance->logError('Component: ' . $componentInstance->Name . ', Behavior: ' . $this->Name . ' (BehaviorAction) - "Action" prop must be set.');
-        }
-
         // Base constructor
         parent::__construct($componentInstance);
     }
 
     /**
-     * Add Wordpress action hook
-     *
-     * Validate action hook name first
-     *
-     * @override
-     *
+     * Add Wordpress filter hook
      * @param string $actionHookName Name of the hook action
      * @param string|array $callback Wordpress callback
      * @param int $priority Used to specify the order in which the functions associated with a particular action are executed
@@ -37,9 +23,8 @@ class BehaviorFilter extends Behavior
     protected function addFilter($filterHookName, $callback, $priority = 10, $acceptedArgs = 1)
     {
         // Basic Validation
-        if ($this->Action != $actionHookName) {
-            // Log
-            //\Evoke\Core\Theme::$Instance->logError('Component: '. $this->_compoment->Name .', Behavior: '. $this->Name .' (BehaviorAction) - "actionHookName" parameter passed into the addAction() method must be equal to Behavior\'s "Action" prop.');
+        if (!$filterHookName) {
+            Theme::$instance->logError('Component: ' . $this->_compoment->Name . ', Behavior: ' . $this->Name . ' (BehaviorAction) - filterhook is empty');
             return;
         }
 

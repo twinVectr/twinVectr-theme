@@ -26,7 +26,7 @@ class Component
         if (!$this->Name || !$this->Desc) {
             $this->Name = 'Unknown Component';
             $this->Desc = 'Missing Description';
-            twinVectr\engine\Theme::$instance->logError('Component: Virtual props "Name" and "Desc" must be set in derived class.');
+            Theme::$instance->logError('Component: Virtual props "Name" and "Desc" must be set in derived class.');
         }
         // load all component behaviours
         $this->loadBehaviors();
@@ -43,7 +43,7 @@ class Component
             // Require the behavior file
             require_once $file;
             // Get behavior class
-            $behaviorClass = \twinVectr\engine\Theme::$instance->TokenizerService->getClassNameFromFile($file);
+            $behaviorClass = Theme::$instance->TokenizerService->getClassNameFromFile($file);
 
             // If behavior Class is found
             if ($behaviorClass) {
@@ -51,7 +51,7 @@ class Component
                 $behavior = new $behaviorClass($this);
 
                 // If behavior has a proper class
-                if ($behavior instanceof twinVectr\engine\Behavior) {
+                if (is_subclass_of($behavior, 'twinVectr\engine\Behavior')) {
                     // Register behavior
                     $behavior->register();
 
@@ -66,7 +66,7 @@ class Component
                 }
                 // Invalid class
                 else {
-                    twinVectr\engine\Theme::$instance->logWarning('The class located in the file "' . $file . '" does not implement "twinVectr\engine\Behavior" class - cannot be loaded as an action.');
+                    Theme::$instance->logWarning('The class located in the file "' . $file . '" does not implement "twinVectr\engine\Behavior" class - cannot be loaded as an action.');
                 }
             }
         }

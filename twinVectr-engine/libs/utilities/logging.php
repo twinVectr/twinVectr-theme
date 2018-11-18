@@ -1,9 +1,4 @@
 <?php
-/**
- * Logging
- * Helper utilities for better logging in PHP/Wordpress
- */
-
 namespace twinVectr\engine;
 
 /**
@@ -13,7 +8,6 @@ class Logging
 {
     /**
      * Converts an object into a string using the Wordpress Output Buffer
-     *
      * @param mixed $object Object which will be converted into string
      * @return string Returns converted object into string
      */
@@ -28,7 +22,6 @@ class Logging
 
     /**
      * Outputs a HTML log message
-     *
      * @param string $message Log message
      * @param string $color CSS Background color value, default 'lightblue'
      */
