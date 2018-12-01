@@ -17,6 +17,8 @@ class Theme
     public $theme_root_url;
     public $option_prefix = 'twinVectr';
     public $component_root_folder = 'components';
+    public $vc_component_root_folder = 'vc_compoents';
+    public $wordpress_components = 'wordpress_components';
 
     private $log_prefix = 'twinVectr';
     private $engine_root_folder = 'twinVectr-engine';
@@ -103,7 +105,7 @@ class Theme
      */
     public function logError($error)
     {
-        if ($this->Development) {
+        if ($this->development) {
             $this->logging_service->HtmlLog($error, 'lightcoral');
         } else {
             error_log($this->log_prefix . $error);
@@ -138,9 +140,20 @@ class Theme
         foreach ($abstractClasses as $req) {
             require_once $req;
         }
+
+        //Load visual composer registeration file
+        $visualComposerComponents = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->component_root_folder . '/' . $this->vc_component_root_folder . '/*.php');
+        foreach ($visualComposerComponents as $file) {
+            require_once $file;
+            $vc_registration = $this->tokenizer_service->getClassNameFromFile($file);
+            if ($vc_registration) {
+                // Instantiate the
+                new $vc_registration(dirname($file));
+            }
+        }
         // Loads all the component base info
-        $componentCorefiles = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->component_root_folder . '/*/*.php');
-        foreach ($componentCorefiles as $file) {
+        $wordpressComponents = glob($this->theme_root_folder . '/' . $this->engine_root_folder . '/' . $this->component_root_folder . '/' . $this->wordpress_components . '/*/*.php');
+        foreach ($wordpressComponents as $file) {
             require_once $file;
             // Get component class
             $componentClass = $this->tokenizer_service->getClassNameFromFile($file);
