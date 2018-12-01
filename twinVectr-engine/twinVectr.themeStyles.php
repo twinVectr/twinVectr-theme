@@ -35,13 +35,13 @@ class ThemeStyle
     {
         // Register main admin stylesheet - Development or Production
         if (Theme::$instance->development) {
-            wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.css', array(), '1.0.0', 'all');
+            //wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.css', array(), '1.0.0', 'all');
         } else {
-            wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.min.css', array(), '1.0.0', 'all');
+            // wp_register_style('css-main', get_stylesheet_directory_uri() . '/dist/css/main.min.css', array(), '1.0.0', 'all');
         }
 
         // Enqueue Styles
-        wp_enqueue_style('css-main');
+        // wp_enqueue_style('css-main');
     }
 
     /**
@@ -54,7 +54,7 @@ class ThemeStyle
         foreach ($bundle_files as $key => $js_file) {
             preg_match('/\/dist\/js-chunks\/entries\/desktop\/[\w.]+/', $js_file, $matches);
             $handler = "reactApp-bundle" . $key;
-            wp_enqueue_script($handler, Theme::$instance->theme_root_url . $matches[0], '', '', true);
+            // wp_enqueue_script($handler, Theme::$instance->theme_root_url . $matches[0], '', '', true);
         }
 
     }

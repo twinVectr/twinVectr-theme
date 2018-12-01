@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "vcExampleComponent": {
+      "settings": {
+        "name": "Vc Example Component",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-text-example.png",
+        "metaPreviewUrl": "[publicPath]/preview-text-example.jpg",
+        "metaDescription": "Simple element boilerplate for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor."
+      }
+    }
+  },
+  "categories": {
+    "Misc": {
+      "elements": [
+        "vcExampleComponent"
+      ]
+    }
+  }
+}

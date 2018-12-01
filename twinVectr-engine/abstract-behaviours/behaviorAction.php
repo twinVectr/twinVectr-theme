@@ -7,7 +7,7 @@ namespace twinVectr\engine;
  */
 class BehaviorAction extends Behavior
 {
-    public function __construct($componentInstance)
+    public function __construct($componentInstance = '')
     {
         // Base constructor
         parent::__construct($componentInstance);
