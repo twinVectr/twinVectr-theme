@@ -24,7 +24,7 @@ class VisualComposerElementRegister extends twinVectr\engine\BehaviorAction
         /** @var \VisualComposer\Modules\Elements\ApiController $elementsApi */
         $elementsApi = $api->elements;
         foreach ($elementsToRegister as $tag) {
-            $manifestPath = __DIR__ . '/' . $tag . '/manifest.json';
+            $manifestPath = __DIR__ . '/elements/' . $tag . '/manifest.json';
             $elementBaseUrl = $tag;
             $elementsApi->add($manifestPath, $elementBaseUrl);
         }

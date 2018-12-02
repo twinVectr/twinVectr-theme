@@ -9,7 +9,7 @@ module.exports = Object.assign({}, {
   devtool: 'eval',
   mode: 'development',
   entry: {
-    element: './index.js',
+    element: './' + tag + '/index.js',
     vendor: [
       'jquery',
       'react',

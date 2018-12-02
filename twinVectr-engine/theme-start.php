@@ -17,7 +17,7 @@ class Theme
     public $theme_root_url;
     public $option_prefix = 'twinVectr';
     public $component_root_folder = 'components';
-    public $vc_component_root_folder = 'vc_compoents';
+    public $vc_component_root_folder = 'vcComponents';
     public $wordpress_components = 'wordpress_components';
 
     private $log_prefix = 'twinVectr';
@@ -149,6 +149,7 @@ class Theme
             if ($vc_registration) {
                 // Instantiate the
                 new $vc_registration(dirname($file));
+
             }
         }
         // Loads all the component base info
