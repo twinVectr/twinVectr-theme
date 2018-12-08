@@ -3,6 +3,7 @@ namespace twinVectr\engine;
 
 require_once 'twinVectr.themeStyles.php';
 require_once 'twinVectr.applyThemeGlobalHooks.php';
+require_once 'twinVectr.addThemeSupport.php';
 
 /**
  * twinVectr Engine
@@ -44,6 +45,7 @@ class Theme
         $this->loadAllLibs();
         $this->loadAllStyles();
         $this->loadThemeHelpers();
+        $this->loadThemeSupport();
         $this->tokenizer_service = new Tokenizer();
         $this->logging_service = new Logging();
     }
@@ -93,6 +95,14 @@ class Theme
     private function loadThemeHelpers()
     {
         GlobalHooks::applyThemeBasicHooks();
+    }
+
+    /**
+     * Load all wordpress theme support
+     */
+    private function loadThemeSupport()
+    {
+        ThemeSupport::addThemeSupport();
     }
 
     /**

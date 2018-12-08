@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
-import vcExampleComponent from './component'
+import vcExampleComponent from './components'
 
-const vcvAddElement = vcCake.getService('cook').add
+const vcvAddElement = vcCake.getService('cook').add;
 
 vcvAddElement(
   require('./settings.json'),
@@ -13,10 +13,5 @@ vcvAddElement(
   {
     css: false,
     editorCss: require('raw-loader!./editor.css'),
-    // cssMixins: {
-    //   boilerplateColorMixin: {
-    //     mixin: require('raw-loader!./cssMixins/boilerplateColorMixin.pcss')
-    //   }
-    // }
   }
 )
