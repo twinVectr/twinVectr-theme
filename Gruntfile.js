@@ -13,6 +13,7 @@ module.exports = function (grunt) {
   var webpackConfigProd = require('./webpack.production.config');
 
   var srcPath = './twinVectr-engine/components/vcComponents/elements/';
+  var distPath = '../../uploads/visualcomposer-assets/elements/';
 
 
   grunt.initConfig({
@@ -97,13 +98,13 @@ module.exports = function (grunt) {
             expand: true,
             cwd: srcPath + '<%= tag %>' + '/' + 'public/',
             src: ['**'],
-            dest: '../../uploads/visualcomposer-assets/elements/<%= tag %>/public',
+            dest: distPath + '<%= tag %>/public',
           },
           {
             expand: true,
             cwd: srcPath + '<%= tag %>' + '/' + '<%= tag %>' + '/public/',
             src: ['**'],
-            dest: '../../uploads/visualcomposer-assets/elements/<%= tag %>/<%= tag %>/public',
+            dest: distPath + '<%= tag %>/<%= tag %>/public',
           }
         ],
       },
