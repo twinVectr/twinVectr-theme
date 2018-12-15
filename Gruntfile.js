@@ -7,14 +7,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-
   var webpackCommon = require('./webpack.config');
   var webpackConfig = require('./webpack.dev.config');
   var webpackConfigProd = require('./webpack.production.config');
 
   var srcPath = './twinVectr-engine/components/vcComponents/elements/';
-  var distPath = '../../uploads/visualcomposer-assets/elements/';
-
+  //var distPath = '../../uploads/visualcomposer-assets/elements/';
 
   grunt.initConfig({
     pkg: grunt
@@ -22,15 +20,14 @@ module.exports = function (grunt) {
       .readJSON('package.json'),
     exec: {
       execWebpack: {
-        cmd: function (file) {
-          return 'webpack --config ' + srcPath + file;
+        cwd: srcPath + '<%= grunt.option("tag") %>',
+        stdout: false,
+        cmd: function () {
+          return 'grunt build-dev';
         },
-        callback: function (error, stdout, stderr) {
-          grunt.task.run('copy:main');
-        },
-        exitCode: [0, 2],
-        sync: true,
-        shell: true
+        // callback: function (error, stdout, stderr) {
+        //   grunt.task.run('copy:main');
+        // },
       }
     },
     sass: {
@@ -70,7 +67,13 @@ module.exports = function (grunt) {
       },
       scripts: {
         src: ['dist/js-chunks']
-      },
+      }
+      // vcElements: {
+      //   src: [distPath + '<%= grunt.option("tag") %>'],
+      //   options: {
+      //     force: true
+      //   },
+      // },
     },
     watch: {
       js: {
@@ -90,38 +93,48 @@ module.exports = function (grunt) {
         }
       }
     },
-    copy: {
-      main: {
-        files: [
-          // includes files within path
-          {
-            expand: true,
-            cwd: srcPath + '<%= tag %>' + '/' + 'public/',
-            src: ['**'],
-            dest: distPath + '<%= tag %>/public',
-          },
-          {
-            expand: true,
-            cwd: srcPath + '<%= tag %>' + '/' + '<%= tag %>' + '/public/',
-            src: ['**'],
-            dest: distPath + '<%= tag %>/<%= tag %>/public',
-          }
-        ],
-      },
-    },
+    // copy: {
+    //   main: {
+    //     files: [
+    //       // includes files within path
+    //       {
+    //         expand: true,
+    //         cwd: srcPath + '<%= grunt.option("tag") %>' + '/' + 'public/',
+    //         src: ['**'],
+    //         dest: distPath + '<%= grunt.option("tag") %>/public',
+    //       },
+    //       {
+    //         expand: true,
+    //         cwd: srcPath + '<%= grunt.option("tag") %>' + '/' + '<%= grunt.option("tag") %>' + '/public/',
+    //         src: ['**'],
+    //         dest: distPath + '<%= grunt.option("tag") %>/<%= grunt.option("tag") %>/public',
+    //       }
+    //     ],
+    //   },
+    // },
   });
 
   grunt.registerTask('build-prod', ['webpack:prod', 'sass', 'cssmin']);
   grunt.registerTask('build-dev', ['webpack:dev', 'sass']);
 
+  grunt.registerTask('compile-vc', function () {
+    grunt.option('tag', this.args[0]);
+    grunt.task.run(['exec:execWebpack']);
+  });
+
   grunt.registerTask('build-vc', 'Build All Eelements', function () {
+    var tasks = [];
     grunt.file.expand({ cwd: srcPath }, ["*/*.js"])
-      .map(function (file) {
+      .forEach(function (file) {
         if (file.indexOf('webpack.config.4x.babel') !== -1) {
-          grunt.config.set('tag', file.split("/")[0]);
-          grunt.task.run('exec:execWebpack:' + file);
+          var tag = file.split("/")[0];
+          tasks.push('compile-vc:' + tag);
         }
       });
+
+    tasks.forEach(function (task) {
+      grunt.task.run(task);
+    });
 
   });
 
