@@ -3,17 +3,12 @@
   "version": "1.0.0-dev",
   "description": "VCWB Element Boilerplate",
   "main": "vcExampleComponent/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:wpbakery/vcwb-element-boilerplate.git"
-  },
   "scripts": {
     "standard": "npx standard",
     "build": "npx webpack --config webpack.config.4x.babel.js --progress --colors",
     "build-production": "npx webpack --config webpack.config.4x.production.babel.js -p --silent",
     "watch": "npx webpack --config webpack.config.4x.babel.js --progress --colors --watch"
   },
-  "author": "@wpb",
   "license": "GPL-3.0+",
   "engines": {
     "node": ">=6",
@@ -44,6 +39,13 @@
     "expose-loader": "0.7.5",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "file-loader": "1.1.11",
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-webpack": "^3.1.3",
     "jest-cli": "22.4.3",
     "jquery.caret": "git://github.com/ichord/caret.js.git",
     "jscs": "3.0.7",
@@ -53,6 +55,7 @@
     "ncp": "2.0.0",
     "node-jsx": "0.13.3",
     "node-minify": "2.4.2",
+    "node-sass": "^4.11.0",
     "postcss-functions": "git://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
     "postcss-prefix-url": "git://github.com/wpbakery/postcss-prefix-url.git#60f177340ab35fce12cf4172752bd484ece3c7df",
     "qunitjs": "2.4.1",
@@ -61,6 +64,7 @@
     "redbox-react": "1.5.0",
     "resolve-url": "0.2.1",
     "resolve-url-loader": "2.3.0",
+    "sass-loader": "^7.1.0",
     "standard": "11.0.1",
     "string-replace-webpack-plugin": "0.1.3",
     "style-loader": "0.20.3",
@@ -70,8 +74,8 @@
     "uglifyjs-webpack-plugin": "1.2.4",
     "url-loader": "1.0.1",
     "virtual-module-webpack-plugin": "0.4.0",
-    "webpack": "4.5.0",
-    "webpack-cli": "^2.1.5",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
     "webpack-sources": "1.1.0"
   },
   "dependencies": {

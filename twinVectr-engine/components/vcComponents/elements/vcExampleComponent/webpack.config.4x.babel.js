@@ -1,6 +1,6 @@
-import path from 'path'
-import VirtualModulePlugin from 'virtual-module-webpack-plugin'
-import WebpackElementPlugin from './webpack.element.plugin.babel'
+const path = require('path');
+const VirtualModulePlugin = require('virtual-module-webpack-plugin');
+const WebpackElementPlugin = require('./webpack.element.plugin.babel');
 
 
 //const uploads = 'wp-content/uploads/';
@@ -95,7 +95,15 @@ module.exports = Object.assign({}, {
         test: /\.js$/,
         use: { loader: 'babel-loader' },
         exclude: /node_modules/
-      }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
+      },
     ]
   },
   resolve: {

@@ -57,6 +57,8 @@ class ThemeStyle
             // wp_enqueue_script($handler, Theme::$instance->theme_root_url . $matches[0], '', '', true);
         }
 
+        wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', array(), null, true);
+
     }
 
 }

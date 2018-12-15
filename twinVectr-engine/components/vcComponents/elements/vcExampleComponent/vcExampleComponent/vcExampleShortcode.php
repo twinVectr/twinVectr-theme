@@ -33,7 +33,7 @@ class VCExampleShortcode extends Container implements Module
 
     private function getPostLogo()
     {
-        return '';
+        return 'test';
     }
 
 }

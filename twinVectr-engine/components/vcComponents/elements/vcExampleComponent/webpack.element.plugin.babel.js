@@ -1,6 +1,6 @@
-import { ConcatSource } from 'webpack-sources'
+const { ConcatSource } = require('webpack-sources');
 
-export default class ElementsPlugin {
+class ElementsPlugin {
   constructor(tag) {
     this.tag = tag
   }
@@ -62,3 +62,5 @@ export default class ElementsPlugin {
     )
   }
 }
+
+module.exports = ElementsPlugin;
