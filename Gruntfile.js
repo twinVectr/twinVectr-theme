@@ -10,14 +10,13 @@ module.exports = function (grunt) {
   var webpackCommon = require('./webpack.config');
   var webpackConfig = require('./webpack.dev.config');
   var webpackConfigProd = require('./webpack.production.config');
-
   var srcPath = './twinVectr-engine/components/vcComponents/elements/';
-  //var distPath = '../../uploads/visualcomposer-assets/elements/';
 
   grunt.initConfig({
     pkg: grunt
       .file
       .readJSON('package.json'),
+    //new visual composer build each component
     exec: {
       execWebpack: {
         cwd: srcPath + '<%= grunt.option("tag") %>',
@@ -25,11 +24,9 @@ module.exports = function (grunt) {
         cmd: function () {
           return 'grunt build-dev';
         },
-        // callback: function (error, stdout, stderr) {
-        //   grunt.task.run('copy:main');
-        // },
       }
     },
+    // legacy fontend - build sass
     sass: {
       dist: {
         files: [
@@ -43,11 +40,13 @@ module.exports = function (grunt) {
         ],
       },
     },
+    // legacy fontend - webpack build
     webpack: {
       common: webpackCommon,
       prod: webpackConfigProd,
       dev: webpackConfig,
     },
+    // legacy fontend - css minified
     cssmin: {
       target: {
         files: [
@@ -61,6 +60,7 @@ module.exports = function (grunt) {
         ]
       }
     },
+    // legacy fontend - lazy loading clean
     clean: {
       stylesheets: {
         src: ['dist/styles']
@@ -68,13 +68,8 @@ module.exports = function (grunt) {
       scripts: {
         src: ['dist/js-chunks']
       }
-      // vcElements: {
-      //   src: [distPath + '<%= grunt.option("tag") %>'],
-      //   options: {
-      //     force: true
-      //   },
-      // },
     },
+    // legacy fontend - lazy loading watch
     watch: {
       js: {
         files: ['frontend/**/*.js'],
@@ -93,35 +88,20 @@ module.exports = function (grunt) {
         }
       }
     },
-    // copy: {
-    //   main: {
-    //     files: [
-    //       // includes files within path
-    //       {
-    //         expand: true,
-    //         cwd: srcPath + '<%= grunt.option("tag") %>' + '/' + 'public/',
-    //         src: ['**'],
-    //         dest: distPath + '<%= grunt.option("tag") %>/public',
-    //       },
-    //       {
-    //         expand: true,
-    //         cwd: srcPath + '<%= grunt.option("tag") %>' + '/' + '<%= grunt.option("tag") %>' + '/public/',
-    //         src: ['**'],
-    //         dest: distPath + '<%= grunt.option("tag") %>/<%= grunt.option("tag") %>/public',
-    //       }
-    //     ],
-    //   },
-    // },
   });
 
+  // legacy fontend - lazy loading
   grunt.registerTask('build-prod', ['webpack:prod', 'sass', 'cssmin']);
   grunt.registerTask('build-dev', ['webpack:dev', 'sass']);
 
+
+  // new visual composer build
   grunt.registerTask('compile-vc', function () {
     grunt.option('tag', this.args[0]);
     grunt.task.run(['exec:execWebpack']);
   });
 
+  // run grunt build-vc to build all the visual composer components
   grunt.registerTask('build-vc', 'Build All Eelements', function () {
     var tasks = [];
     grunt.file.expand({ cwd: srcPath }, ["*/*.js"])
