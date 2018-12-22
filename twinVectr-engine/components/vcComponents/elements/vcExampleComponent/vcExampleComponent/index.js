@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import vcExampleComponent from './components';
-import './styles.scss';
 
 const vcvAddElement = vcCake.getService('cook').add;
 
